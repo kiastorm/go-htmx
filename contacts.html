@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.2"
+      integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+      crossorigin="anonymous"
+    ></script>
+
+    <title>{{.PageTitle}}</title>
+  </head>
+
+  <script type="text/javascript"></script>
+  <body>
+    <h1>Contacts</h1>
+    <form action="/contacts/" method="get">
+      <input type="text" name="search" placeholder="Search" />
+    </form>
+    <div>
+      {{if not .Contacts }}
+      <h2>No Contacts</h2>
+      {{else}}
+      <h2>View contacts</h2>
+      <table table-layout="fixed" style="width: 100%">
+        <thead style="text-align: left">
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Notes</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Contacts}}
+          <tr>
+            <td>{{.FirstName}}</td>
+            <td>{{.LastName}}</td>
+            <td>{{.Phone}}</td>
+            <td>{{.Email}}</td>
+            <td>{{.Notes}}</td>
+            <td>
+              <form action="/delete-contact/{{.ID}}" method="post">
+                <button>Delete</button>
+              </form>
+            </td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+      {{end}}
+
+      <hr></hr>
+      
+      <h2>Add new contact</h2>
+      <form action="/add-contact/" method="post">
+        <div>
+          <input type="text" placeholder="First Name" name="firstName" />
+        </div>
+        <div><input type="text" placeholder="Last Name" name="lastName" /></div>
+        <div><input type="text" placeholder="Phone" name="phone" /></div>
+        <div><input type="text" placeholder="Email" name="email" /></div>
+        <textarea placeholder="Notes" name="notes"></textarea>
+        <button>Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
